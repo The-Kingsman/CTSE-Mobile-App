@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:teach_rate/models/Teacher.dart';
+import 'package:teach_rate/models/Class.dart';
 
-class TeacherTile extends StatelessWidget {
-  final Teacher _teacher;
+class ClassTile extends StatelessWidget {
+  final Class _class;
 
-  const TeacherTile(this._teacher);
+  const ClassTile(this._class);
 
   @override
   Widget build(BuildContext context) {
@@ -15,7 +15,7 @@ class TeacherTile extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(
-            _teacher.name,
+            _class.subject,
             style: TextStyle(
               color: Colors.grey[700],
               fontWeight: FontWeight.bold,

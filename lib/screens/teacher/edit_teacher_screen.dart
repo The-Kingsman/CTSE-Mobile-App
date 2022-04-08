@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:teach_rate/models/Teacher.dart';
 
 class EditTeacherScreen extends StatefulWidget {
-  const EditTeacherScreen({Key? key}) : super(key: key);
+  final Teacher _teacher;
+  const EditTeacherScreen(this._teacher);
 
   @override
   State<EditTeacherScreen> createState() => _EditTeacherScreenState();

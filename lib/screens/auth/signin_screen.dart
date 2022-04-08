@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:teach_rate/screens/auth/signup_screen.dart';
+import 'package:teach_rate/screens/teacher/teachers_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   const SignInScreen({Key? key}) : super(key: key);
@@ -83,7 +84,15 @@ class _SignInScreenState extends State<SignInScreen> {
                     ),
                     const SizedBox(height: 10),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        Navigator.pushAndRemoveUntil(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const TeachersScreen(),
+                          ),
+                          (route) => false,
+                        );
+                      },
                       child: Card(
                         elevation: 0.0,
                         shape: RoundedRectangleBorder(

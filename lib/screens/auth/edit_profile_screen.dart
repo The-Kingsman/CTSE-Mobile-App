@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:teach_rate/models/User.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  const EditProfileScreen({Key? key}) : super(key: key);
+  final User _user;
+  const EditProfileScreen(this._user);
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -17,6 +19,16 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
   bool showPassword = true;
+  @override
+  void initState() {
+    name.text = widget._user.name;
+    email.text = widget._user.email;
+    age.text = widget._user.age;
+    contact.text = widget._user.contact;
+    password.text = widget._user.password;
+    super.initState();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(

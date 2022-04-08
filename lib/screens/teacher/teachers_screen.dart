@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:teach_rate/models/Teacher.dart';
 import 'package:teach_rate/screens/teacher/add_teacher_screen.dart';
+import 'package:teach_rate/screens/teacher/view_teacher_screen.dart';
 import 'package:teach_rate/widgets/teacher/search_bar.dart';
 import 'package:teach_rate/widgets/teacher/teacher_tile.dart';
 
@@ -15,9 +16,9 @@ class TeachersScreen extends StatefulWidget {
 
 class _TeachersScreenState extends State<TeachersScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  late List<Teacher> teachers;
-  late bool loading;
-  late String searchText;
+  List<Teacher> teachers = [];
+  bool loading = false;
+  String searchText = '';
   late Timer searchOnStoppedTyping;
   final _controller = ScrollController();
 
@@ -29,6 +30,11 @@ class _TeachersScreenState extends State<TeachersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+        title: const Text(''),
+        elevation: 1.0,
+        centerTitle: false,
+      ),
       backgroundColor: Colors.white,
       key: _scaffoldKey,
       floatingActionButton: FloatingActionButton(
@@ -46,7 +52,7 @@ class _TeachersScreenState extends State<TeachersScreen> {
         padding: const EdgeInsets.only(left: 20, top: 20, right: 20),
         child: Column(
           children: [
-            SearchBar(_updateSearchText, 'project'),
+            SearchBar(_updateSearchText, 'teacher'),
             const SizedBox(
               height: 10,
             ),
@@ -81,7 +87,15 @@ class _TeachersScreenState extends State<TeachersScreen> {
                                   ),
                                 ),
                                 child: GestureDetector(
-                                  onTap: () {},
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) =>
+                                            ViewTeacherScreen(teachers[index]),
+                                      ),
+                                    );
+                                  },
                                   child: TeacherTile(teachers[index]),
                                 ),
                               ),
@@ -90,7 +104,7 @@ class _TeachersScreenState extends State<TeachersScreen> {
                               child: SizedBox(
                                 height: MediaQuery.of(context).size.height,
                                 child: const Center(
-                                  child: Text('No matching projects found'),
+                                  child: Text('No matching teachers found'),
                                 ),
                               ),
                             ),
