@@ -1,4 +1,12 @@
 class Class {
+  String subject;
+  int grade;
+  DateTime time;
+  String location;
+  int fee;
+  String day;
+  String description;
+
   Class({
     required this.subject,
     required this.grade,
@@ -8,13 +16,6 @@ class Class {
     required this.day,
     required this.description,
   });
-  String subject;
-  int grade;
-  DateTime time;
-  String location;
-  int fee;
-  String day;
-  String description;
   factory Class.fromJson(Map<String, dynamic> json) => Class(
         subject: json['subject'],
         grade: json['grade'],
