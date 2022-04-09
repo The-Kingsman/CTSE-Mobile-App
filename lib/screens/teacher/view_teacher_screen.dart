@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:teach_rate/models/Teacher.dart';
+import 'package:teach_rate/screens/rating/add_rating_screen.dart';
 import 'package:teach_rate/screens/teacher/edit_teacher_screen.dart';
 
 class ViewTeacherScreen extends StatelessWidget {
   final Teacher _teacher;
-  const ViewTeacherScreen(this._teacher);
+  ViewTeacherScreen(this._teacher);
 
   @override
   Widget build(BuildContext context) {
@@ -269,6 +270,98 @@ class ViewTeacherScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                              builder: (context) =>
+                                  addRate(_teacher.name.toString())));
+                    },
+                    child: Card(
+                      elevation: 0.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      color: Colors.teal,
+                      child: const Padding(
+                        padding: EdgeInsets.symmetric(vertical: 15),
+                        child: Center(
+                          child: Text(
+                            'Rate',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16,
+                              letterSpacing: 1,
+                              fontWeight: FontWeight.w500,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: GestureDetector(
+                          onTap: () {
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => addRate()));
+                          },
+                          child: Card(
+                            elevation: 0.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            color: Colors.black12,
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(vertical: 15),
+                              child: Center(
+                                  child: Icon(
+                                Icons.edit,
+                                color: Colors.black,
+                              )),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                    Expanded(
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 20),
+                        child: GestureDetector(
+                          onTap: () {
+                            // Navigator.push(
+                            //     context,
+                            //     MaterialPageRoute(
+                            //         builder: (context) => addRate()));
+                          },
+                          child: Card(
+                            elevation: 0.0,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(5),
+                            ),
+                            color: Colors.red,
+                            child: const Padding(
+                              padding: EdgeInsets.symmetric(
+                                vertical: 15,
+                              ),
+                              child: Center(child: Icon(Icons.delete)),
+                            ),
+                          ),
+                        ),
+                      ),
+                    ),
+                  ],
+                )
               ],
             ),
           ),

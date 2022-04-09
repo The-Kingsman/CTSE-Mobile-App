@@ -10,11 +10,12 @@ import 'package:teach_rate/models/Rating.dart';
 class RateProvider with ChangeNotifier {
   List<Rating> ratings = [];
   Rating rating = Rating(
-    id: '',
-    teacherID: '',
-    rating: '',
-    comment: '',
-  );
+      id: "",
+      userID: "",
+      teachername: "",
+      username: "",
+      rating: "",
+      comment: "");
 
   Future<void> fetchRatingByTeacher(
     teacherID,
@@ -32,9 +33,11 @@ class RateProvider with ChangeNotifier {
               loadedRatings.add(
                 Rating(
                   id: prodData['_id'],
-                  teacherID: prodData['teacher_id'],
+                  userID: prodData['user_id'],
                   rating: prodData['rating'],
                   comment: prodData['comment'],
+                  teachername: prodData['teacher_name'],
+                  username: prodData['username'],
                 ),
               );
             },
@@ -59,9 +62,11 @@ class RateProvider with ChangeNotifier {
           final Rating loadedRating;
           loadedRating = Rating(
             id: extractedCode['_id'],
-            teacherID: extractedCode['teacher_id'],
+            userID: extractedCode['user_id'],
             rating: extractedCode['rating'],
             comment: extractedCode['comment'],
+            teachername: extractedCode['teacher_name'],
+            username: extractedCode['username'],
           );
           rating = loadedRating;
           notifyListeners();
@@ -73,14 +78,18 @@ class RateProvider with ChangeNotifier {
   }
 
   Future<dynamic> createRating(
-    teacherID,
+    userID,
+    teacherName,
+    userName,
     rating,
     comment,
   ) async {
     Map<String, dynamic> body = {
-      'teacher_id': teacherID,
+      'userID': userID,
       'rating': rating,
       'comment': comment,
+      'teachername': teacherName,
+      'username': userName,
     };
     try {
       final response = await http.post(
@@ -103,14 +112,18 @@ class RateProvider with ChangeNotifier {
 
   Future<dynamic> updateRating(
     id,
-    teacherID,
+    userID,
+    teacherName,
+    userName,
     rating,
     comment,
   ) async {
     Map<String, dynamic> body = {
-      'teacher_id': teacherID,
+      'userID': userID,
       'rating': rating,
       'comment': comment,
+      'teachername': teacherName,
+      'username': userName,
     };
     try {
       final response = await http.put(

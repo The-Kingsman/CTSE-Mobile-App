@@ -1,12 +1,16 @@
 class Rating {
   String id;
-  String teacherID;
+  String userID;
+  String teachername;
+  String username;
   String rating;
   String comment;
 
   Rating({
     required this.id,
-    required this.teacherID,
+    required this.userID,
+    required this.teachername,
+    required this.username,
     required this.rating,
     required this.comment,
   });

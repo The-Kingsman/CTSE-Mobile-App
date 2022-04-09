@@ -47,10 +47,10 @@ class TeacherProvider with ChangeNotifier {
                   email: prodData['email'],
                   age: prodData['age'],
                   contact: prodData['contact'],
-                  experience: prodData['experience'],
                   fieldofstudy: prodData['subject'],
                   eduQualification: prodData['qualification'],
                   about: prodData['bio'],
+                  experience: prodData['experience'],
                 ),
               );
             },
@@ -171,7 +171,7 @@ class TeacherProvider with ChangeNotifier {
     }
   }
 
-  Future<dynamic> deleteFertilizer(id) async {
+  Future<dynamic> deleteTeacher(id) async {
     try {
       final response = await http.delete(
         Uri.parse('${Constants.url}teacher/$id'),
