@@ -20,6 +20,14 @@ class TeacherProvider with ChangeNotifier {
     about: '',
   );
 
+  List<Teacher> getTeachers() {
+    return [...teachers];
+  }
+
+  Teacher getTeacher() {
+    return teacher;
+  }
+
   Future<void> fetchTeachers() async {
     try {
       final response = await http.get(
