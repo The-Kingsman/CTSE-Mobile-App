@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:teach_rate/models/User.dart';
 import 'package:teach_rate/screens/auth/signin_screen.dart';
 import 'package:teach_rate/screens/auth/user_profile_screen.dart';
 import 'package:teach_rate/screens/class/classes_screen.dart';
@@ -39,13 +41,23 @@ class AppDrawer extends StatelessWidget {
                   color: Colors.white,
                 ),
               ),
-              onTap: () {
-                // Navigator.push(
-                //   context,
-                //   MaterialPageRoute(
-                //     builder: (context) => ViewUserProfileScreen(),
-                //   ),
-                // );
+              onTap: () async {
+                final prefs = await SharedPreferences.getInstance();
+                User _user = User(
+                  id: prefs.getString('id').toString(),
+                  name: prefs.getString('name').toString(),
+                  email: prefs.getString('email').toString(),
+                  age: prefs.getString('age').toString(),
+                  contact: prefs.getString('contact').toString(),
+                  password: prefs.getString('password').toString(),
+                  role: prefs.getString('role').toString(),
+                );
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => ViewUserProfileScreen(_user),
+                  ),
+                );
               },
             ),
             ListTile(
