@@ -1,9 +1,8 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:teach_rate/Providers/UserProvider.dart';
+import 'package:provider/provider.dart';
+import 'package:teach_rate/providers/UserProvider.dart';
+import 'package:teach_rate/screens/auth/signin_screen.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -21,8 +20,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController contact = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
-  bool showPassword = true;
+  bool showPassword = false;
   bool _isLogin = false;
+  bool isAdmin = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -47,6 +47,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                   width: MediaQuery.of(context).size.width * 0.8,
                 ),
               ),
+              const SizedBox(height: 30),
               Form(
                 key: _formKey,
                 child: Column(
@@ -60,7 +61,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                     confirmPasswordField(),
                     const SizedBox(height: 30),
                     GestureDetector(
-                      onTap: () {},
+                      onTap: () {
+                        signUp();
+                      },
                       child: Card(
                         elevation: 0.0,
                         shape: RoundedRectangleBorder(
@@ -80,6 +83,22 @@ class _SignUpScreenState extends State<SignUpScreen> {
                               ),
                             ),
                           ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignInScreen(),
+                          ),
+                        );
+                      },
+                      child: const Center(
+                        child: Text(
+                          "Already have an account?",
                         ),
                       ),
                     ),
@@ -187,7 +206,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget passwordField() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       child: TextFormField(
         obscureText: !showPassword,
         validator: (value) {
@@ -210,12 +229,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ? const Icon(
                     Icons.visibility,
                     color: Colors.grey,
-                    size: 16,
+                    size: 20,
                   )
                 : const Icon(
                     Icons.visibility_off,
                     color: Colors.grey,
-                    size: 16,
+                    size: 20,
                   ),
           ),
           labelText: "Password",
@@ -228,7 +247,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   Widget confirmPasswordField() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       child: TextFormField(
         obscureText: !showPassword,
         validator: (value) {
@@ -253,12 +272,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                 ? const Icon(
                     Icons.visibility,
                     color: Colors.grey,
-                    size: 16,
+                    size: 20,
                   )
                 : const Icon(
                     Icons.visibility_off,
                     color: Colors.grey,
-                    size: 16,
+                    size: 20,
                   ),
           ),
           labelText: "Confirm Password",
@@ -269,41 +288,50 @@ class _SignUpScreenState extends State<SignUpScreen> {
     );
   }
 
-  Register() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var data1 = {
-      "name": name,
-      "email": email,
-      "age": age,
-      "contact": contact,
-      "password": password,
-      "role": "COMMON"
-    };
-    var res = await UserProvider().addUser(data1);
-    print(res.body);
-    final body = json.decode(res.body);
-    print(res.body);
-    if (res.body != null) {
-      localStorage.setString("name", name.text);
-      localStorage.setString("email", email.text);
-      localStorage.setString("age", age.text);
-      localStorage.setString("contact", contact.text);
-      localStorage.setString("password", password.text);
-      localStorage.setInt('login', 1);
-      var user_email = localStorage.getString('email');
-      var user_login = localStorage.getInt('login');
-      print(user_email);
-      print(user_login.toString());
-      setState(() {
-        _isLogin = true;
-      });
-      // await Navigator.pushAndRemoveUntil(
-      //   context,
-      //   MaterialPageRoute(builder: (context) => home()),
-      //   (Route<dynamic> route) => false,
-      // );
+  signUp() async {
+    FocusScope.of(context).unfocus();
+    _formKey.currentState?.save();
+    try {
+      await Provider.of<UserProvider>(context, listen: false)
+          .signUp(
+        name.text,
+        email.text,
+        age.text,
+        contact.text,
+        password.text,
+        isAdmin,
+      )
+          .then(
+        (result) {
+          if (result['result'] is String) {
+            Fluttertoast.showToast(
+              msg: result,
+              backgroundColor: Colors.red.shade500,
+              toastLength: Toast.LENGTH_SHORT,
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SignInScreen(),
+              ),
+            );
+          }
+        },
+        onError: (message) {
+          Fluttertoast.showToast(
+            msg: message.toString(),
+            backgroundColor: Colors.red.shade500,
+            toastLength: Toast.LENGTH_SHORT,
+          );
+        },
+      );
+    } catch (e) {
       Fluttertoast.showToast(
-          msg: "Successful", toastLength: Toast.LENGTH_SHORT);
+        msg: e.toString(),
+        backgroundColor: Colors.red.shade500,
+        toastLength: Toast.LENGTH_SHORT,
+      );
     }
   }
 }

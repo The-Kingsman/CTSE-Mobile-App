@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:provider/provider.dart';
+import 'package:teach_rate/providers/UserProvider.dart';
 import 'package:teach_rate/splash_screen.dart';
 import 'package:teach_rate/theme.dart';
-
-import 'Providers/UserProvider.dart';
 
 void main() {
   runApp(const MyApp());
@@ -34,11 +33,13 @@ class MyApp extends StatelessWidget {
       providers: [
         ChangeNotifierProvider(create: (_) => UserProvider()),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'Teach Rate',
-        theme: theme(),
-        home: const SplashScreen(),
+      child: Consumer<UserProvider>(
+        builder: (context, value, child) => MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'Teach Rate',
+          theme: theme(),
+          home: const SplashScreen(),
+        ),
       ),
     );
   }

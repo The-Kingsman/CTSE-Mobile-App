@@ -1,7 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 import 'package:teach_rate/models/Teacher.dart';
+import 'package:teach_rate/providers/TeacherProvider.dart';
 import 'package:teach_rate/screens/teacher/add_teacher_screen.dart';
 import 'package:teach_rate/screens/teacher/view_teacher_screen.dart';
 import 'package:teach_rate/widgets/common/app_drawer.dart';
@@ -66,39 +68,43 @@ class _TeachersScreenState extends State<TeachersScreen> {
                   : RefreshIndicator(
                       onRefresh: () async {},
                       child: teachers.isNotEmpty
-                          ? ListView.separated(
-                              separatorBuilder:
-                                  (BuildContext context, int index) => Divider(
-                                thickness: 1,
-                                color: Colors.grey[300],
-                              ),
-                              padding: const EdgeInsets.only(
-                                  bottom: kFloatingActionButtonMargin + 48),
-                              controller: _controller,
-                              itemCount: teachers.length,
-                              itemBuilder: (context, index) => Dismissible(
-                                key: UniqueKey(),
-                                onDismissed: (direction) {},
-                                direction: DismissDirection.endToStart,
-                                background: const Align(
-                                  alignment: Alignment.centerRight,
-                                  child: Icon(
-                                    Icons.delete,
-                                    color: Colors.red,
-                                    size: 40,
-                                  ),
+                          ? Consumer<TeacherProvider>(
+                              builder: (_, teacher, __) => ListView.separated(
+                                separatorBuilder:
+                                    (BuildContext context, int index) =>
+                                        Divider(
+                                  thickness: 1,
+                                  color: Colors.grey[300],
                                 ),
-                                child: GestureDetector(
-                                  onTap: () {
-                                    Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) =>
-                                            ViewTeacherScreen(teachers[index]),
-                                      ),
-                                    );
-                                  },
-                                  child: TeacherTile(teachers[index]),
+                                padding: const EdgeInsets.only(
+                                    bottom: kFloatingActionButtonMargin + 48),
+                                controller: _controller,
+                                itemCount: teachers.length,
+                                itemBuilder: (context, index) => Dismissible(
+                                  key: UniqueKey(),
+                                  onDismissed: (direction) {},
+                                  direction: DismissDirection.endToStart,
+                                  background: const Align(
+                                    alignment: Alignment.centerRight,
+                                    child: Icon(
+                                      Icons.delete,
+                                      color: Colors.red,
+                                      size: 40,
+                                    ),
+                                  ),
+                                  child: GestureDetector(
+                                    onTap: () {
+                                      Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) =>
+                                              ViewTeacherScreen(
+                                                  teachers[index]),
+                                        ),
+                                      );
+                                    },
+                                    child: TeacherTile(teachers[index]),
+                                  ),
                                 ),
                               ),
                             )

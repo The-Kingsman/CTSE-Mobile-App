@@ -1,10 +1,10 @@
 class Class {
   String teacherID;
   String subject;
-  int grade;
-  DateTime time;
+  String grade;
+  String time;
   String location;
-  int fee;
+  String fee;
   String day;
   String description;
 

@@ -1,7 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:teach_rate/models/User.dart';
 import 'package:teach_rate/providers/UserProvider.dart';
 import 'package:teach_rate/screens/auth/signup_screen.dart';
 import 'package:teach_rate/screens/teacher/teachers_screen.dart';
@@ -18,7 +21,7 @@ class _SignInScreenState extends State<SignInScreen> {
   late FocusScopeNode node;
   TextEditingController email = TextEditingController();
   TextEditingController password = TextEditingController();
-  bool showPassword = true;
+  bool showPassword = false;
   bool rememberMe = false;
 
   @override
@@ -54,48 +57,10 @@ class _SignInScreenState extends State<SignInScreen> {
                     emailField(),
                     const SizedBox(height: 15),
                     passwordField(),
-                    const SizedBox(height: 10),
-                    Padding(
-                      padding: const EdgeInsets.only(right: 5),
-                      child: Row(
-                        children: [
-                          Checkbox(
-                            value: rememberMe,
-                            activeColor: Colors.teal,
-                            onChanged: (value) {
-                              setState(() {
-                                rememberMe = value!;
-                              });
-                            },
-                          ),
-                          const Text("Remember me"),
-                          const Spacer(),
-                          GestureDetector(
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const SignUpScreen(),
-                                ),
-                              );
-                            },
-                            child: const Text(
-                              "Don't have and account?",
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    const SizedBox(height: 10),
+                    const SizedBox(height: 30),
                     GestureDetector(
                       onTap: () {
-                        Navigator.pushAndRemoveUntil(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => const TeachersScreen(),
-                          ),
-                          (route) => false,
-                        );
+                        signIn();
                       },
                       child: Card(
                         elevation: 0.0,
@@ -116,6 +81,22 @@ class _SignInScreenState extends State<SignInScreen> {
                               ),
                             ),
                           ),
+                        ),
+                      ),
+                    ),
+                    const SizedBox(height: 20),
+                    GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const SignUpScreen(),
+                          ),
+                        );
+                      },
+                      child: const Center(
+                        child: Text(
+                          "Don't have an account?",
                         ),
                       ),
                     ),
@@ -177,12 +158,12 @@ class _SignInScreenState extends State<SignInScreen> {
                 ? const Icon(
                     Icons.visibility,
                     color: Colors.grey,
-                    size: 16,
+                    size: 20,
                   )
                 : const Icon(
                     Icons.visibility_off,
                     color: Colors.grey,
-                    size: 16,
+                    size: 20,
                   ),
           ),
           labelText: "Password",
@@ -193,42 +174,60 @@ class _SignInScreenState extends State<SignInScreen> {
     );
   }
 
-  Login() async {
-    SharedPreferences localStorage = await SharedPreferences.getInstance();
-    var data = {'email': email.text, 'password': password.text};
-    if (email.text.isEmpty || password.text.isEmpty) {
-      print('please enter login credintials');
-    } else {
-      var res = await UserProvider().getUser(data);
-      if (res.body == 'login fail') {
-        print('login fail');
-      } else {
-        final body = json.decode(res.body);
-        print(body);
-        if (body != null) {
-          localStorage.setInt('login', 1);
-          var user_email = localStorage.getString('email');
-          var user_login = localStorage.getInt('login');
-          print(user_email);
-          print(user_login.toString());
-          print('login Success');
-          // await Navigator.pushAndRemoveUntil(
-          //   context,
-          //   MaterialPageRoute(builder: (context) => home()),
-          //   (Route<dynamic> route) => false,
-          // );
-        } else if (body['message'] == 'password_invalid') {
-          // Fluttertoast.showToast(
-          //   msg: "Password do not match",
-          //   toastLength: Toast.LENGTH_SHORT,
-          // );
-        } else if (body['message'] == 'user_not_found') {
-          // Fluttertoast.showToast(
-          //   msg: "User Not Found",
-          //   toastLength: Toast.LENGTH_SHORT,
-          // );
-        }
-      }
+  signIn() async {
+    FocusScope.of(context).unfocus();
+    _formKey.currentState?.save();
+    try {
+      await Provider.of<UserProvider>(context, listen: false)
+          .signIn(
+        email.text,
+        password.text,
+      )
+          .then(
+        (result) async {
+          if (result['result'] is String) {
+            Fluttertoast.showToast(
+              msg: result['result'],
+              backgroundColor: Colors.red.shade500,
+              toastLength: Toast.LENGTH_SHORT,
+            );
+          } else {
+            final user = User(
+              id: result['result']['_id'],
+              name: result['result']['name'],
+              email: result['result']['email'],
+              age: result['result']['age'],
+              contact: result['result']['contact'],
+              password: result['result']['password'],
+              role: result['result']['role'],
+            );
+            final prefs = await SharedPreferences.getInstance();
+            prefs.setString('user', json.encode(user));
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const TeachersScreen(),
+              ),
+              (route) => false,
+            );
+          }
+        },
+        onError: (message) {
+          print(message);
+          Fluttertoast.showToast(
+            msg: message.toString(),
+            backgroundColor: Colors.red.shade500,
+            toastLength: Toast.LENGTH_SHORT,
+          );
+        },
+      );
+    } catch (e) {
+      print(e);
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        backgroundColor: Colors.red.shade500,
+        toastLength: Toast.LENGTH_SHORT,
+      );
     }
   }
 }

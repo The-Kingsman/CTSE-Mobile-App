@@ -141,7 +141,9 @@ class AppDrawer extends StatelessWidget {
                         ),
                       ),
                       FlatButton(
-                        onPressed: () {
+                        onPressed: () async {
+                          final prefs = await SharedPreferences.getInstance();
+                          prefs.clear();
                           Navigator.pushAndRemoveUntil(
                             context,
                             MaterialPageRoute(

@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:teach_rate/models/Rate.dart';
+import 'package:teach_rate/models/Rating.dart';
 
 class RateTile extends StatelessWidget {
-  final Rate _rate;
+  final Rating _rate;
 
   const RateTile(this._rate);
 
