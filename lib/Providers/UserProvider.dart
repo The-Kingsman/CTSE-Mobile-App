@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 import 'package:flutter/cupertino.dart';
@@ -13,7 +12,7 @@ class UserProvider with ChangeNotifier {
           'Authorization': 'Bearer',
           'Connection': 'keep-alive',
         },
-        body: jsonEncode(data1));
+        body: data1);
   }
 
   getUser(data) async {
@@ -24,6 +23,6 @@ class UserProvider with ChangeNotifier {
           'Authorization': 'Bearer',
           'Connection': 'keep-alive',
         },
-        body: jsonEncode(data));
+        body: data);
   }
 }

@@ -1,4 +1,9 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:teach_rate/Providers/UserProvider.dart';
 
 class SignUpScreen extends StatefulWidget {
   const SignUpScreen({Key? key}) : super(key: key);
@@ -17,6 +22,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
   bool showPassword = true;
+  bool _isLogin = false;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -261,5 +267,43 @@ class _SignUpScreenState extends State<SignUpScreen> {
         ),
       ),
     );
+  }
+
+  Register() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var data1 = {
+      "name": name,
+      "email": email,
+      "age": age,
+      "contact": contact,
+      "password": password,
+      "role": "COMMON"
+    };
+    var res = await UserProvider().addUser(data1);
+    print(res.body);
+    final body = json.decode(res.body);
+    print(res.body);
+    if (res.body != null) {
+      localStorage.setString("name", name.text);
+      localStorage.setString("email", email.text);
+      localStorage.setString("age", age.text);
+      localStorage.setString("contact", contact.text);
+      localStorage.setString("password", password.text);
+      localStorage.setInt('login', 1);
+      var user_email = localStorage.getString('email');
+      var user_login = localStorage.getInt('login');
+      print(user_email);
+      print(user_login.toString());
+      setState(() {
+        _isLogin = true;
+      });
+      // await Navigator.pushAndRemoveUntil(
+      //   context,
+      //   MaterialPageRoute(builder: (context) => home()),
+      //   (Route<dynamic> route) => false,
+      // );
+      Fluttertoast.showToast(
+          msg: "Successful", toastLength: Toast.LENGTH_SHORT);
+    }
   }
 }

@@ -1,4 +1,8 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:teach_rate/providers/UserProvider.dart';
 import 'package:teach_rate/screens/auth/signup_screen.dart';
 import 'package:teach_rate/screens/teacher/teachers_screen.dart';
 
@@ -187,5 +191,44 @@ class _SignInScreenState extends State<SignInScreen> {
         ),
       ),
     );
+  }
+
+  Login() async {
+    SharedPreferences localStorage = await SharedPreferences.getInstance();
+    var data = {'email': email.text, 'password': password.text};
+    if (email.text.isEmpty || password.text.isEmpty) {
+      print('please enter login credintials');
+    } else {
+      var res = await UserProvider().getUser(data);
+      if (res.body == 'login fail') {
+        print('login fail');
+      } else {
+        final body = json.decode(res.body);
+        print(body);
+        if (body != null) {
+          localStorage.setInt('login', 1);
+          var user_email = localStorage.getString('email');
+          var user_login = localStorage.getInt('login');
+          print(user_email);
+          print(user_login.toString());
+          print('login Success');
+          // await Navigator.pushAndRemoveUntil(
+          //   context,
+          //   MaterialPageRoute(builder: (context) => home()),
+          //   (Route<dynamic> route) => false,
+          // );
+        } else if (body['message'] == 'password_invalid') {
+          // Fluttertoast.showToast(
+          //   msg: "Password do not match",
+          //   toastLength: Toast.LENGTH_SHORT,
+          // );
+        } else if (body['message'] == 'user_not_found') {
+          // Fluttertoast.showToast(
+          //   msg: "User Not Found",
+          //   toastLength: Toast.LENGTH_SHORT,
+          // );
+        }
+      }
+    }
   }
 }
