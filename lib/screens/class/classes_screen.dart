@@ -38,14 +38,6 @@ class _ClassesScreenState extends State<ClassesScreen> {
       drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text(''),
-        // leading: GestureDetector(
-        //   onTap: () {},
-        //   child: const Icon(
-        //     Icons.notes,
-        //     color: Colors.black,
-        //     size: 30,
-        //   ),
-        // ),
         elevation: 1.0,
         centerTitle: false,
       ),
@@ -72,38 +64,71 @@ class _ClassesScreenState extends State<ClassesScreen> {
             ),
             Expanded(
               child: Consumer<ClassProvider>(
-                builder: (context, provider, child) => ListView.builder(
-                  padding: const EdgeInsets.only(
-                      bottom: kFloatingActionButtonMargin + 48),
-                  controller: _controller,
-                  itemCount: provider.getClasses().length,
-                  itemBuilder: (context, index) => Dismissible(
-                    key: UniqueKey(),
-                    onDismissed: (direction) {},
-                    direction: DismissDirection.endToStart,
-                    background: const Align(
-                      alignment: Alignment.centerRight,
-                      child: Icon(
-                        Icons.delete,
-                        color: Colors.red,
-                        size: 40,
+                builder: (context, provider, child) {
+                  return ListView.builder(
+                    itemCount: provider.getClasses().length,
+                    itemBuilder: (ctx, index) => Dismissible(
+                      key: Key(index.toString()),
+                      onDismissed: (direction) {
+                        print('object');
+                        // Provider.of<ClassProvider>(context, listen: false)
+                        //     .deleteClass(provider.getClasses()[index].id);
+                      },
+                      child: GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  ViewClassScreen(provider.getClasses()[index]),
+                            ),
+                          );
+                        },
+                        child: ClassTile(
+                          provider.getClasses()[index],
+                        ),
                       ),
                     ),
-                    child: GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) =>
-                                ViewClassScreen(provider.getClasses()[index]),
-                          ),
-                        );
-                      },
-                      child: ClassTile(provider.getClasses()[index]),
-                    ),
-                  ),
-                ),
+                  );
+                },
               ),
+
+              // Consumer<ClassProvider>(
+              //   builder: (context, provider, child) => ListView.builder(
+              //     padding: const EdgeInsets.only(
+              //         bottom: kFloatingActionButtonMargin + 48),
+              //     controller: _controller,
+              //     itemCount: provider.getClasses().length,
+              //     itemBuilder: (context, index) => Dismissible(
+              //       key: UniqueKey(),
+              //       onDismissed: (direction) {
+              //         Provider.of<ClassProvider>(context, listen: false)
+              //             .deleteClass(provider.getClasses()[index].id);
+              //       },
+              //       direction: DismissDirection.endToStart,
+              //       background: const Align(
+              //         alignment: Alignment.centerRight,
+              //         child: Icon(
+              //           Icons.delete,
+              //           color: Colors.red,
+              //           size: 40,
+              //         ),
+              //       ),
+              //       child: GestureDetector(
+              //         onTap: () {
+              //           Navigator.push(
+              //             context,
+              //             MaterialPageRoute(
+              //               builder: (context) =>
+              //                   ViewClassScreen(provider.getClasses()[index]),
+              //             ),
+              //           );
+              //         },
+              //         child: ClassTile(provider.getClasses()[index]),
+              //       ),
+              //     ),
+              //   ),
+              // ),
             ),
           ],
         ),
