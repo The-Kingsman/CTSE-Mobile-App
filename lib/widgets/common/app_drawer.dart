@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teach_rate/models/User.dart';
@@ -43,19 +45,13 @@ class AppDrawer extends StatelessWidget {
               ),
               onTap: () async {
                 final prefs = await SharedPreferences.getInstance();
-                User _user = User(
-                  id: prefs.getString('id').toString(),
-                  name: prefs.getString('name').toString(),
-                  email: prefs.getString('email').toString(),
-                  age: prefs.getString('age').toString(),
-                  contact: prefs.getString('contact').toString(),
-                  password: prefs.getString('password').toString(),
-                  role: prefs.getString('role').toString(),
-                );
+                User user = User.fromJson(
+                    json.decode(prefs.getString('user').toString()));
+                user.id = prefs.getString('userID').toString();
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ViewUserProfileScreen(_user),
+                    builder: (context) => ViewUserProfileScreen(user),
                   ),
                 );
               },

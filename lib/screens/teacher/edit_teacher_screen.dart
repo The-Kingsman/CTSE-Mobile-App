@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:teach_rate/models/Teacher.dart';
+import 'package:teach_rate/providers/TeacherProvider.dart';
+import 'package:teach_rate/screens/teacher/teachers_screen.dart';
 
 class EditTeacherScreen extends StatefulWidget {
   final Teacher _teacher;
@@ -22,6 +26,19 @@ class _EditTeacherScreenState extends State<EditTeacherScreen> {
   TextEditingController description = TextEditingController();
 
   @override
+  void initState() {
+    name.text = widget._teacher.name;
+    email.text = widget._teacher.email;
+    age.text = widget._teacher.age;
+    contact.text = widget._teacher.contact;
+    subject.text = widget._teacher.fieldofstudy;
+    experience.text = widget._teacher.experience;
+    qualification.text = widget._teacher.eduQualification;
+    description.text = widget._teacher.about;
+    super.initState();
+  }
+
+  @override
   Widget build(BuildContext context) {
     node = FocusScope.of(context);
     return Scaffold(
@@ -32,7 +49,9 @@ class _EditTeacherScreenState extends State<EditTeacherScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                updateTeacher();
+              },
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Center(
@@ -259,5 +278,55 @@ class _EditTeacherScreenState extends State<EditTeacherScreen> {
         ),
       ),
     );
+  }
+
+  updateTeacher() async {
+    FocusScope.of(context).unfocus();
+    _formKey.currentState?.save();
+    try {
+      await Provider.of<TeacherProvider>(context, listen: false)
+          .updateTeacher(
+        widget._teacher.id,
+        name.text,
+        email.text,
+        age.text,
+        contact.text,
+        experience.text,
+        subject.text,
+        qualification.text,
+        description.text,
+      )
+          .then(
+        (result) {
+          if (result['result'] is String) {
+            Fluttertoast.showToast(
+              msg: result,
+              backgroundColor: Colors.red.shade500,
+              toastLength: Toast.LENGTH_SHORT,
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const TeachersScreen(),
+              ),
+            );
+          }
+        },
+        onError: (message) {
+          Fluttertoast.showToast(
+            msg: message.toString(),
+            backgroundColor: Colors.red.shade500,
+            toastLength: Toast.LENGTH_SHORT,
+          );
+        },
+      );
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        backgroundColor: Colors.red.shade500,
+        toastLength: Toast.LENGTH_SHORT,
+      );
+    }
   }
 }

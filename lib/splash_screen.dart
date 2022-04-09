@@ -1,6 +1,14 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:teach_rate/models/User.dart';
+import 'package:teach_rate/providers/UserProvider.dart';
 import 'package:teach_rate/screens/auth/signin_screen.dart';
+import 'package:teach_rate/screens/teacher/teachers_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({Key? key}) : super(key: key);
@@ -28,6 +36,7 @@ class _SplashScreenState extends State<SplashScreen>
       Colors.teal
     ];
     changeColor();
+
     super.initState();
     _animationController = AnimationController(vsync: this);
     _animationController.addListener(() {
@@ -36,14 +45,9 @@ class _SplashScreenState extends State<SplashScreen>
       }
     });
     Future.delayed(
-      const Duration(seconds: 4),
+      const Duration(seconds: 2),
       () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => const SignInScreen(),
-          ),
-        );
+        performAutoLogin();
       },
     );
     super.initState();
@@ -77,5 +81,82 @@ class _SplashScreenState extends State<SplashScreen>
         changeColor();
       }
     });
+  }
+
+  performAutoLogin() async {
+    final prefs = await SharedPreferences.getInstance();
+    if (prefs.getString('user') != null) {
+      User user =
+          User.fromJson(json.decode(prefs.getString('user').toString()));
+      signIn(user.email, user.password);
+    } else {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SignInScreen(),
+        ),
+      );
+    }
+  }
+
+  signIn(
+    email,
+    password,
+  ) async {
+    FocusScope.of(context).unfocus();
+    try {
+      await Provider.of<UserProvider>(context, listen: false)
+          .signIn(
+        email,
+        password,
+      )
+          .then(
+        (result) async {
+          if (result['result'] is String) {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const SignInScreen(),
+              ),
+            );
+          } else {
+            final user = User(
+              id: result['result']['_id'],
+              name: result['result']['name'],
+              email: result['result']['email'],
+              age: result['result']['age'],
+              contact: result['result']['contact'],
+              password: result['result']['password'],
+              role: result['result']['role'],
+            );
+            final prefs = await SharedPreferences.getInstance();
+            prefs.setString('userID', result['result']['_id']);
+            prefs.setString('user', json.encode(user));
+            Navigator.pushAndRemoveUntil(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const TeachersScreen(),
+              ),
+              (route) => false,
+            );
+          }
+        },
+        onError: (message) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const SignInScreen(),
+            ),
+          );
+        },
+      );
+    } catch (e) {
+      Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => const SignInScreen(),
+        ),
+      );
+    }
   }
 }

@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
 import 'package:teach_rate/models/Class.dart';
+import 'package:teach_rate/providers/ClassProvider.dart';
+import 'package:teach_rate/screens/class/classes_screen.dart';
 
 class EditClassScreen extends StatefulWidget {
   final Class _class;
@@ -31,7 +35,9 @@ class _EditClassScreenState extends State<EditClassScreen> {
           Padding(
             padding: const EdgeInsets.only(right: 10),
             child: GestureDetector(
-              onTap: () {},
+              onTap: () {
+                updateClass();
+              },
               child: const Padding(
                 padding: EdgeInsets.symmetric(horizontal: 10),
                 child: Center(
@@ -258,5 +264,55 @@ class _EditClassScreenState extends State<EditClassScreen> {
         ),
       ),
     );
+  }
+
+  updateClass() async {
+    FocusScope.of(context).unfocus();
+    _formKey.currentState?.save();
+    try {
+      await Provider.of<ClassProvider>(context, listen: false)
+          .updateClass(
+        widget._class.id,
+        teacher,
+        subject,
+        grade,
+        time,
+        location,
+        fee,
+        day,
+        description,
+      )
+          .then(
+        (result) {
+          if (result['result'] is String) {
+            Fluttertoast.showToast(
+              msg: result,
+              backgroundColor: Colors.red.shade500,
+              toastLength: Toast.LENGTH_SHORT,
+            );
+          } else {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => const ClassesScreen(),
+              ),
+            );
+          }
+        },
+        onError: (message) {
+          Fluttertoast.showToast(
+            msg: message.toString(),
+            backgroundColor: Colors.red.shade500,
+            toastLength: Toast.LENGTH_SHORT,
+          );
+        },
+      );
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        backgroundColor: Colors.red.shade500,
+        toastLength: Toast.LENGTH_SHORT,
+      );
+    }
   }
 }

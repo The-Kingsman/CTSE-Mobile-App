@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:teach_rate/models/User.dart';
 import 'package:teach_rate/screens/auth/edit_profile_screen.dart';
+import 'package:teach_rate/widgets/common/app_drawer.dart';
 
 class ViewUserProfileScreen extends StatelessWidget {
   final User _user;
@@ -12,7 +13,9 @@ class ViewUserProfileScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text(''),
         leading: GestureDetector(
-          onTap: () {},
+          onTap: () {
+            const AppDrawer();
+          },
           child: const Icon(
             Icons.notes,
             color: Colors.black,
@@ -49,26 +52,14 @@ class ViewUserProfileScreen extends StatelessWidget {
               children: [
                 Center(
                   child: Text(
-                    'View Class',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    'View Profile',
+                    style: Theme.of(context).textTheme.headline4,
                   ),
                 ),
                 Table(
-                  border: TableBorder(
-                    horizontalInside: BorderSide(
-                      width: 2,
-                      color: Colors.grey.shade300,
-                      style: BorderStyle.solid,
-                    ),
-                    bottom: BorderSide(
-                      width: 2,
-                      color: Colors.grey.shade300,
-                      style: BorderStyle.solid,
-                    ),
-                  ),
                   columnWidths: const {
-                    0: FractionColumnWidth(0.6),
-                    1: FractionColumnWidth(0.3)
+                    0: FractionColumnWidth(0.3),
+                    1: FractionColumnWidth(0.6)
                   },
                   children: [
                     TableRow(
@@ -76,7 +67,7 @@ class ViewUserProfileScreen extends StatelessWidget {
                         const Padding(
                           padding: EdgeInsets.only(top: 20),
                           child: Text(
-                            'Sample',
+                            'Name',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w800,
@@ -86,8 +77,112 @@ class ViewUserProfileScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
-                            'Sample',
-                            textAlign: TextAlign.center,
+                            _user.name,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Text(
+                            'Email',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Text(
+                            _user.email,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Text(
+                            'Age',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Text(
+                            _user.age,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Text(
+                            'Contact',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Text(
+                            _user.contact,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Text(
+                            'Role',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Text(
+                            _user.role,
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,

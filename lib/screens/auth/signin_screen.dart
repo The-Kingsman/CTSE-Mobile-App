@@ -202,6 +202,7 @@ class _SignInScreenState extends State<SignInScreen> {
               role: result['result']['role'],
             );
             final prefs = await SharedPreferences.getInstance();
+            prefs.setString('userID', result['result']['_id']);
             prefs.setString('user', json.encode(user));
             Navigator.pushAndRemoveUntil(
               context,
@@ -213,7 +214,6 @@ class _SignInScreenState extends State<SignInScreen> {
           }
         },
         onError: (message) {
-          print(message);
           Fluttertoast.showToast(
             msg: message.toString(),
             backgroundColor: Colors.red.shade500,
@@ -222,7 +222,6 @@ class _SignInScreenState extends State<SignInScreen> {
         },
       );
     } catch (e) {
-      print(e);
       Fluttertoast.showToast(
         msg: e.toString(),
         backgroundColor: Colors.red.shade500,

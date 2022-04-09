@@ -35,8 +35,8 @@ class TeacherProvider with ChangeNotifier {
       );
       switch (response.statusCode) {
         case 200:
-          final extractedCode = json.decode(response.body) as List<dynamic>;
-          print(extractedCode);
+          final extractedCode =
+              json.decode(response.body)['results'] as List<dynamic>;
           final List<Teacher> loadedTeachers = [];
           extractedCode.forEach(
             (prodData) {
@@ -58,7 +58,6 @@ class TeacherProvider with ChangeNotifier {
           teachers = loadedTeachers;
           notifyListeners();
       }
-      notifyListeners();
     } on SocketException {
       throw FetchDataException('No Internet connection');
     }
@@ -132,7 +131,7 @@ class TeacherProvider with ChangeNotifier {
     }
   }
 
-  Future<dynamic> updateFertilizer(
+  Future<dynamic> updateTeacher(
     id,
     name,
     email,

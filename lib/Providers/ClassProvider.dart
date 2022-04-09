@@ -9,6 +9,7 @@ import 'package:teach_rate/models/Class.dart';
 class ClassProvider with ChangeNotifier {
   List<Class> classes = [];
   Class tutionClass = Class(
+    id: '',
     teacherID: '',
     subject: '',
     grade: '',
@@ -19,6 +20,14 @@ class ClassProvider with ChangeNotifier {
     description: '',
   );
 
+  List<Class> getClasses() {
+    return [...classes];
+  }
+
+  Class getClass() {
+    return tutionClass;
+  }
+
   Future<void> fetchClasses() async {
     try {
       final response = await http.get(
@@ -26,12 +35,14 @@ class ClassProvider with ChangeNotifier {
       );
       switch (response.statusCode) {
         case 200:
-          final extractedCode = json.decode(response.body) as List<dynamic>;
+          final extractedCode =
+              json.decode(response.body)['results'] as List<dynamic>;
           final List<Class> loadedClasses = [];
           extractedCode.forEach(
             (prodData) {
               loadedClasses.add(
                 Class(
+                  id: prodData['_id'],
                   teacherID: prodData['teacher_id'],
                   subject: prodData['subject'],
                   grade: prodData['grade'],
@@ -53,7 +64,7 @@ class ClassProvider with ChangeNotifier {
     }
   }
 
-  Future<void> fetchClass(id) async {
+  Future<Class> fetchClass(id) async {
     try {
       final response = await http.get(
         Uri.parse('${Constants.url}class/$id'),
@@ -63,6 +74,7 @@ class ClassProvider with ChangeNotifier {
           final extractedCode = json.decode(response.body);
           final Class loadedClass;
           loadedClass = Class(
+            id: extractedCode['_id'],
             teacherID: extractedCode['teacher_id'],
             subject: extractedCode['subject'],
             grade: extractedCode['grade'],
@@ -76,6 +88,7 @@ class ClassProvider with ChangeNotifier {
           notifyListeners();
       }
       notifyListeners();
+      return tutionClass;
     } on SocketException {
       throw FetchDataException('No Internet connection');
     }

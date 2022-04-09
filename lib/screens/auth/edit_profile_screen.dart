@@ -1,5 +1,12 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:fluttertoast/fluttertoast.dart';
+import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teach_rate/models/User.dart';
+import 'package:teach_rate/providers/UserProvider.dart';
+import 'package:teach_rate/screens/auth/user_profile_screen.dart';
 
 class EditProfileScreen extends StatefulWidget {
   final User _user;
@@ -18,7 +25,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   TextEditingController contact = TextEditingController();
   TextEditingController password = TextEditingController();
   TextEditingController confirmPassword = TextEditingController();
-  bool showPassword = true;
+  bool showPassword = false;
   @override
   void initState() {
     name.text = widget._user.name;
@@ -33,20 +40,42 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      appBar: AppBar(
+        elevation: 1.0,
+        title: const Text('Update Profile'),
+        actions: [
+          Padding(
+            padding: const EdgeInsets.only(right: 10),
+            child: GestureDetector(
+              onTap: () {
+                updateProfile();
+              },
+              child: const Padding(
+                padding: EdgeInsets.symmetric(horizontal: 10),
+                child: Center(
+                  child: Text(
+                    'Update',
+                    style: TextStyle(
+                      color: Colors.black,
+                      fontSize: 16,
+                      fontWeight: FontWeight.bold,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ],
+      ),
       body: SingleChildScrollView(
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           height: MediaQuery.of(context).size.height,
           width: MediaQuery.of(context).size.width,
           child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Image.asset(
-                'assets/images/logo.png',
-                width: MediaQuery.of(context).size.width / 2.5,
-              ),
-              const SizedBox(height: 30),
+              const SizedBox(height: 20),
               Form(
                 key: _formKey,
                 child: Column(
@@ -57,30 +86,6 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     ageField(),
                     contactField(),
                     passwordField(),
-                    GestureDetector(
-                      onTap: () {},
-                      child: Card(
-                        elevation: 0.0,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(5),
-                        ),
-                        color: Colors.teal,
-                        child: const Padding(
-                          padding: EdgeInsets.symmetric(vertical: 15),
-                          child: Center(
-                            child: Text(
-                              'Confirm',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 16,
-                                letterSpacing: 1,
-                                fontWeight: FontWeight.w500,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
                   ],
                 ),
               )
@@ -185,7 +190,7 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
 
   Widget passwordField() {
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       child: TextFormField(
         obscureText: !showPassword,
         validator: (value) {
@@ -222,5 +227,65 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
         ),
       ),
     );
+  }
+
+  updateProfile() async {
+    FocusScope.of(context).unfocus();
+    _formKey.currentState?.save();
+    try {
+      await Provider.of<UserProvider>(context, listen: false)
+          .updateProfile(
+        widget._user.id,
+        name.text,
+        email.text,
+        age.text,
+        contact.text,
+        password.text,
+        widget._user.role,
+      )
+          .then(
+        (result) async {
+          if (result['result'] is String) {
+            Fluttertoast.showToast(
+              msg: result,
+              backgroundColor: Colors.red.shade500,
+              toastLength: Toast.LENGTH_SHORT,
+            );
+          } else {
+            final prefs = await SharedPreferences.getInstance();
+            prefs.clear();
+            final user = User(
+              id: result['result']['_id'],
+              name: result['result']['name'],
+              email: result['result']['email'],
+              age: result['result']['age'],
+              contact: result['result']['contact'],
+              password: result['result']['password'],
+              role: result['result']['role'],
+            );
+            prefs.setString('user', json.encode(user));
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (context) => ViewUserProfileScreen(user),
+              ),
+            );
+          }
+        },
+        onError: (message) {
+          Fluttertoast.showToast(
+            msg: message.toString(),
+            backgroundColor: Colors.red.shade500,
+            toastLength: Toast.LENGTH_SHORT,
+          );
+        },
+      );
+    } catch (e) {
+      Fluttertoast.showToast(
+        msg: e.toString(),
+        backgroundColor: Colors.red.shade500,
+        toastLength: Toast.LENGTH_SHORT,
+      );
+    }
   }
 }

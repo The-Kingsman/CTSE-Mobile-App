@@ -67,4 +67,40 @@ class UserProvider with ChangeNotifier {
       throw FetchDataException('No Internet connection');
     }
   }
+
+  Future<dynamic> updateProfile(
+    id,
+    name,
+    email,
+    age,
+    contact,
+    password,
+    role,
+  ) async {
+    Map<String, dynamic> body = {
+      'name': name,
+      'email': email,
+      'age': age,
+      'contact': contact,
+      'password': password,
+      'isAdmin': role,
+    };
+    try {
+      final response = await http.put(
+        Uri.parse('${Constants.url}user/$id'),
+        headers: {
+          HttpHeaders.contentTypeHeader: 'application/json',
+        },
+        body: json.encode(body),
+      );
+      notifyListeners();
+      if (response.statusCode == 200) {
+        return json.decode(response.body);
+      } else {
+        return json.decode(response.body)['result'];
+      }
+    } on SocketException {
+      throw FetchDataException('No Internet connection');
+    }
+  }
 }
