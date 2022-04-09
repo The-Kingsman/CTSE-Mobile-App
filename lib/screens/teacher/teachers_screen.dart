@@ -114,8 +114,8 @@ class _TeachersScreenState extends State<TeachersScreen> {
 
   checkAdmin() async {
     final prefs = await SharedPreferences.getInstance();
-    User user = User.fromJson(json.decode(prefs.getString('user').toString()));
-    if (user.role == 'ADMIN') {
+    var role = prefs.getString('role');
+    if (role.toString() == 'ADMIN') {
       setState(() {
         isAdmin = true;
       });

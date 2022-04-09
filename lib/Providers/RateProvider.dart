@@ -11,8 +11,8 @@ class RateProvider with ChangeNotifier {
   List<Rating> ratings = [];
   Rating rating = Rating(
       id: "",
-      userID: "",
-      teachername: "",
+      user_id: "",
+      teacher_id: "",
       username: "",
       rating: "",
       comment: "");
@@ -33,10 +33,10 @@ class RateProvider with ChangeNotifier {
               loadedRatings.add(
                 Rating(
                   id: prodData['_id'],
-                  userID: prodData['user_id'],
+                  user_id: prodData['user_id'],
                   rating: prodData['rating'],
                   comment: prodData['comment'],
-                  teachername: prodData['teacher_name'],
+                  teacher_id: prodData['teacher_id'],
                   username: prodData['username'],
                 ),
               );
@@ -62,10 +62,10 @@ class RateProvider with ChangeNotifier {
           final Rating loadedRating;
           loadedRating = Rating(
             id: extractedCode['_id'],
-            userID: extractedCode['user_id'],
+            user_id: extractedCode['user_id'],
             rating: extractedCode['rating'],
             comment: extractedCode['comment'],
-            teachername: extractedCode['teacher_name'],
+            teacher_id: extractedCode['teacher_id'],
             username: extractedCode['username'],
           );
           rating = loadedRating;
@@ -79,16 +79,16 @@ class RateProvider with ChangeNotifier {
 
   Future<dynamic> createRating(
     userID,
-    teacherName,
+    teacherId,
     userName,
     rating,
     comment,
   ) async {
     Map<String, dynamic> body = {
-      'userID': userID,
+      'user_id': userID,
       'rating': rating,
       'comment': comment,
-      'teachername': teacherName,
+      'teacher_id': teacherId,
       'username': userName,
     };
     try {
@@ -113,16 +113,16 @@ class RateProvider with ChangeNotifier {
   Future<dynamic> updateRating(
     id,
     userID,
-    teacherName,
+    teacherId,
     userName,
     rating,
     comment,
   ) async {
     Map<String, dynamic> body = {
-      'userID': userID,
+      'user_id': userID,
       'rating': rating,
       'comment': comment,
-      'teachername': teacherName,
+      'teacher_id': teacherId,
       'username': userName,
     };
     try {

@@ -278,7 +278,7 @@ class ViewTeacherScreen extends StatelessWidget {
                           context,
                           MaterialPageRoute(
                               builder: (context) =>
-                                  addRate(_teacher.name.toString())));
+                                  addRate(_teacher.id.toString())));
                     },
                     child: Card(
                       elevation: 0.0,

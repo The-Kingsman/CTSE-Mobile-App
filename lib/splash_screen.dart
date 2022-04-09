@@ -85,9 +85,9 @@ class _SplashScreenState extends State<SplashScreen>
   performAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
     if (prefs.getString('user') != null) {
-      User user =
-          User.fromJson(json.decode(prefs.getString('user').toString()));
-      signIn(user.email, user.password);
+      var email = prefs.getString('email');
+      var password = prefs.getString('password');
+      signIn(email.toString(), password.toString());
     } else {
       Navigator.push(
         context,
@@ -119,18 +119,14 @@ class _SplashScreenState extends State<SplashScreen>
               ),
             );
           } else {
-            final user = User(
-              id: result['result']['_id'],
-              name: result['result']['name'],
-              email: result['result']['email'],
-              age: result['result']['age'],
-              contact: result['result']['contact'],
-              password: result['result']['password'],
-              role: result['result']['role'],
-            );
             final prefs = await SharedPreferences.getInstance();
             prefs.setString('userID', result['result']['_id']);
-            prefs.setString('user', json.encode(user));
+            prefs.setString('name', result['result']['name']);
+            prefs.setString('email', result['result']['email']);
+            prefs.setString('age', result['result']['age']);
+            prefs.setString('contact', result['result']['contact']);
+            prefs.setString('password', result['result']['password']);
+            prefs.setString('role', result['result']['role']);
             Navigator.pushAndRemoveUntil(
               context,
               MaterialPageRoute(

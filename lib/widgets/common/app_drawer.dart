@@ -45,14 +45,27 @@ class AppDrawer extends StatelessWidget {
               ),
               onTap: () async {
                 final prefs = await SharedPreferences.getInstance();
-                User user = User.fromJson(
-                    json.decode(prefs.getString('user').toString()));
-                user.id = prefs.getString('userID').toString();
+
+                var id = prefs.getString('userID');
+                var name = prefs.getString('name');
+                var email = prefs.getString('email');
+                var age = prefs.getString('age');
+                var contact = prefs.getString('contact');
+                var password = prefs.getString('password');
+                var role = prefs.getString('role');
+
                 Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ViewUserProfileScreen(user),
+                    builder: (context) => ViewUserProfileScreen(
+                        id.toString(),
+                        name.toString(),
+                        email.toString(),
+                        age.toString(),
+                        contact.toString(),
+                        password.toString(),
+                        role.toString()),
                   ),
                 );
               },

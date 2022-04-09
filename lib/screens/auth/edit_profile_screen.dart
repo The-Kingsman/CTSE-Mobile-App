@@ -9,8 +9,9 @@ import 'package:teach_rate/providers/UserProvider.dart';
 import 'package:teach_rate/screens/auth/user_profile_screen.dart';
 
 class EditProfileScreen extends StatefulWidget {
-  final User _user;
-  const EditProfileScreen(this._user);
+  final String id, name, email, age, contact, password, role;
+  const EditProfileScreen(this.id, this.name, this.email, this.age,
+      this.contact, this.password, this.role);
 
   @override
   State<EditProfileScreen> createState() => _EditProfileScreenState();
@@ -28,11 +29,11 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
   bool showPassword = false;
   @override
   void initState() {
-    name.text = widget._user.name;
-    email.text = widget._user.email;
-    age.text = widget._user.age;
-    contact.text = widget._user.contact;
-    password.text = widget._user.password;
+    name.text = widget.name;
+    email.text = widget.email;
+    age.text = widget.age;
+    contact.text = widget.contact;
+    password.text = widget.password;
     super.initState();
   }
 
@@ -235,13 +236,13 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     try {
       await Provider.of<UserProvider>(context, listen: false)
           .updateProfile(
-        widget._user.id,
+        widget.id,
         name.text,
         email.text,
         age.text,
         contact.text,
         password.text,
-        widget._user.role,
+        widget.role,
       )
           .then(
         (result) async {
@@ -254,20 +255,25 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
           } else {
             final prefs = await SharedPreferences.getInstance();
             prefs.clear();
-            final user = User(
-              id: result['result']['_id'],
-              name: result['result']['name'],
-              email: result['result']['email'],
-              age: result['result']['age'],
-              contact: result['result']['contact'],
-              password: result['result']['password'],
-              role: result['result']['role'],
-            );
-            prefs.setString('user', json.encode(user));
+
+            prefs.setString('userID', result['result']['_id']);
+            prefs.setString('name', result['result']['name']);
+            prefs.setString('email', result['result']['email']);
+            prefs.setString('age', result['result']['age']);
+            prefs.setString('contact', result['result']['contact']);
+            prefs.setString('password', result['result']['password']);
+            prefs.setString('role', result['result']['role']);
             Navigator.push(
               context,
               MaterialPageRoute(
-                builder: (context) => ViewUserProfileScreen(user),
+                builder: (context) => ViewUserProfileScreen(
+                    widget.id,
+                    name.toString(),
+                    email.toString(),
+                    age.toString(),
+                    contact.toString(),
+                    password.toString(),
+                    widget.role),
               ),
             );
           }

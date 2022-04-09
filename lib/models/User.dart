@@ -17,15 +17,6 @@ class User {
     required this.role,
   });
 
-  User.fromJson(Map<String, dynamic> json)
-      : id = json['_id'],
-        name = json['name'],
-        email = json['email'],
-        age = json['age'],
-        contact = json['contact'],
-        password = json['password'],
-        role = json['role'];
-
   Map<String, dynamic> toJson() => {
         'id': id,
         'name': name,

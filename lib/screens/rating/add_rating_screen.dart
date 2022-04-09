@@ -10,8 +10,8 @@ import 'package:teach_rate/screens/teacher/teachers_screen.dart';
 import '../../models/User.dart';
 
 class addRate extends StatefulWidget {
-  final String teacherName;
-  const addRate(this.teacherName);
+  final String teacherId;
+  const addRate(this.teacherId);
 
   @override
   State<addRate> createState() => _addRateState();
@@ -116,7 +116,7 @@ class _addRateState extends State<addRate> {
           });
         },
         starBuilder: (index, color) => Icon(
-          Icons.ac_unit_outlined,
+          Icons.star,
           color: color,
         ),
         starCount: 5,
@@ -146,12 +146,13 @@ class _addRateState extends State<addRate> {
     FocusScope.of(context).unfocus();
     _formKey.currentState?.save();
     final prefs = await SharedPreferences.getInstance();
-    User user = User.fromJson(json.decode(prefs.getString('user').toString()));
+    var user_Id = prefs.getString('userID');
+    var user_Name = prefs.getString('name');
 
     try {
       await Provider.of<RateProvider>(context, listen: false)
-          .createRating(user.id, widget.teacherName, user.name,
-              value.toString(), comment.text)
+          .createRating(user_Id.toString(), widget.teacherId.toString(),
+              user_Name.toString(), value.toString(), comment.text)
           .then(
         (result) {
           if (result['result'] is String) {
