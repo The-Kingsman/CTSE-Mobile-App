@@ -39,13 +39,11 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (_) => ClassProvider()),
         ChangeNotifierProvider(create: (_) => RateProvider()),
       ],
-      child: Consumer<UserProvider>(
-        builder: (context, value, child) => MaterialApp(
-          debugShowCheckedModeBanner: false,
-          title: 'Teach Rate',
-          theme: theme(),
-          home: const SplashScreen(),
-        ),
+      child: MaterialApp(
+        debugShowCheckedModeBanner: false,
+        title: 'Teach Rate',
+        theme: theme(),
+        home: const SplashScreen(),
       ),
     );
   }

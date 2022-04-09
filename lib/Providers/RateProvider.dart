@@ -8,6 +8,14 @@ import 'package:teach_rate/models/AppException.dart';
 import 'package:teach_rate/models/Rating.dart';
 
 class RateProvider with ChangeNotifier {
+  List<Rating> getRatings() {
+    return [...ratings];
+  }
+
+  Rating getRating() {
+    return rating;
+  }
+
   List<Rating> ratings = [];
   Rating rating = Rating(
       id: "",
