@@ -18,7 +18,7 @@ class TeachersScreen extends StatefulWidget {
 
 class _TeachersScreenState extends State<TeachersScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-  List<Teacher> teachers = [];
+  Future<List<Teacher>>? teachers;
   bool loading = false;
   String searchText = '';
   late Timer searchOnStoppedTyping;
@@ -163,58 +163,56 @@ class _TeachersScreenState extends State<TeachersScreen> {
               //     ),
               //   ),
               // ),
-              Consumer<TeacherProvider>(
-                builder: (_, teacher, __) => FutureBuilder(
-                  future: teacher.fetchTeachers(),
-                  builder: (context, snapshot) {
-                    if (snapshot.connectionState == ConnectionState.waiting) {
-                      return const CircularProgressIndicator();
-                    }
-                    if (!snapshot.hasData) {
-                      return SingleChildScrollView(
-                        child: SizedBox(
-                          height: MediaQuery.of(context).size.height,
-                          child: const Center(
-                            child: Text('No matching teachers found'),
-                          ),
+              FutureBuilder<List<Teacher>>(
+                future: teachers,
+                builder: (context, snapshot) {
+                  if (snapshot.connectionState == ConnectionState.waiting) {
+                    return const CircularProgressIndicator();
+                  }
+                  if (!snapshot.hasData) {
+                    return SingleChildScrollView(
+                      child: SizedBox(
+                        height: MediaQuery.of(context).size.height,
+                        child: const Center(
+                          child: Text('No matching teachers found'),
                         ),
-                      );
-                    }
-                    if (snapshot.hasData) {
-                      return Expanded(
-                        child: ListView.separated(
-                          itemCount: teacher.getTeachers().length,
-                          itemBuilder: (context, index) {
-                            return GestureDetector(
-                              onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => ViewTeacherScreen(
-                                      teacher.getTeachers()[index]),
-                                ),
+                      ),
+                    );
+                  }
+                  if (snapshot.hasData) {
+                    return Expanded(
+                      child: ListView.separated(
+                        itemCount: snapshot.data!.length,
+                        itemBuilder: (context, index) {
+                          return GestureDetector(
+                            onTap: () => Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) =>
+                                    ViewTeacherScreen(snapshot.data![index]),
                               ),
-                              child: TeacherTile(teacher.getTeachers()[index]),
-                            );
-                          },
-                          separatorBuilder: (BuildContext context, int index) =>
-                              const Divider(
-                            thickness: 2,
-                            indent: 20,
-                            endIndent: 20,
-                          ),
-                          physics: const BouncingScrollPhysics(),
+                            ),
+                            child: TeacherTile(snapshot.data![index]),
+                          );
+                        },
+                        separatorBuilder: (BuildContext context, int index) =>
+                            const Divider(
+                          thickness: 2,
+                          indent: 20,
+                          endIndent: 20,
                         ),
-                      );
-                    } else {
-                      return const Text(
-                        "Somwthing Bad happen",
-                        style: TextStyle(
-                          backgroundColor: Colors.white,
-                        ),
-                      );
-                    }
-                  },
-                ),
+                        physics: const BouncingScrollPhysics(),
+                      ),
+                    );
+                  } else {
+                    return const Text(
+                      "Somwthing Bad happen",
+                      style: TextStyle(
+                        backgroundColor: Colors.white,
+                      ),
+                    );
+                  }
+                },
               ),
             ],
           ),
