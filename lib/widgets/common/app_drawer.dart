@@ -48,6 +48,7 @@ class AppDrawer extends StatelessWidget {
                 User user = User.fromJson(
                     json.decode(prefs.getString('user').toString()));
                 user.id = prefs.getString('userID').toString();
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -68,6 +69,7 @@ class AppDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () {
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -88,6 +90,7 @@ class AppDrawer extends StatelessWidget {
                 ),
               ),
               onTap: () {
+                Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(

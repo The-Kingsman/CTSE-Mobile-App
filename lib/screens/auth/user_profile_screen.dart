@@ -3,24 +3,32 @@ import 'package:teach_rate/models/User.dart';
 import 'package:teach_rate/screens/auth/edit_profile_screen.dart';
 import 'package:teach_rate/widgets/common/app_drawer.dart';
 
-class ViewUserProfileScreen extends StatelessWidget {
+class ViewUserProfileScreen extends StatefulWidget {
   final User _user;
   const ViewUserProfileScreen(this._user);
 
   @override
+  State<ViewUserProfileScreen> createState() => _ViewUserProfileScreenState();
+}
+
+class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
+  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
+      key: _scaffoldKey,
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text(''),
-        leading: GestureDetector(
-          onTap: () {
-            const AppDrawer();
-          },
-          child: const Icon(
+        leading: IconButton(
+          icon: const Icon(
             Icons.notes,
             color: Colors.black,
             size: 30,
           ),
+          onPressed: () {
+            _scaffoldKey.currentState?.openDrawer();
+          },
         ),
         actions: [
           GestureDetector(
@@ -28,7 +36,7 @@ class ViewUserProfileScreen extends StatelessWidget {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => EditProfileScreen(_user),
+                  builder: (context) => EditProfileScreen(widget._user),
                 ),
               );
             },
@@ -77,7 +85,7 @@ class ViewUserProfileScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
-                            _user.name,
+                            widget._user.name,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
@@ -103,7 +111,7 @@ class ViewUserProfileScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
-                            _user.email,
+                            widget._user.email,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
@@ -129,7 +137,7 @@ class ViewUserProfileScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
-                            _user.age,
+                            widget._user.age,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
@@ -155,7 +163,7 @@ class ViewUserProfileScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
-                            _user.contact,
+                            widget._user.contact,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
@@ -181,7 +189,7 @@ class ViewUserProfileScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
-                            _user.role,
+                            widget._user.role,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
@@ -194,6 +202,40 @@ class ViewUserProfileScreen extends StatelessWidget {
                     ),
                   ],
                 ),
+                // Visibility(
+                //   visible: ,
+                //   child: GestureDetector(
+                //     onTap: () {
+                //       Navigator.push(
+                //         context,
+                //         MaterialPageRoute(
+                //           builder: (context) => const CreateAdminScreen(),
+                //         ),
+                //       );
+                //     },
+                //     child: Card(
+                //       elevation: 0.0,
+                //       shape: RoundedRectangleBorder(
+                //         borderRadius: BorderRadius.circular(5),
+                //       ),
+                //       color: Colors.teal,
+                //       child: const Padding(
+                //         padding: EdgeInsets.symmetric(vertical: 15),
+                //         child: Center(
+                //           child: Text(
+                //             'Create Admin',
+                //             style: TextStyle(
+                //               color: Colors.white,
+                //               fontSize: 16,
+                //               letterSpacing: 1,
+                //               fontWeight: FontWeight.w500,
+                //             ),
+                //           ),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),

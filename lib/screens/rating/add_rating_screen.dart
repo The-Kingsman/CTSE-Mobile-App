@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -112,7 +111,6 @@ class _addRateState extends State<addRate> {
       child: RatingStars(
         value: value,
         onValueChanged: (v) {
-          //
           setState(() {
             value = v;
           });
@@ -134,7 +132,7 @@ class _addRateState extends State<addRate> {
         starSpacing: 2,
         maxValueVisibility: true,
         valueLabelVisibility: true,
-        animationDuration: Duration(milliseconds: 1000),
+        animationDuration: const Duration(milliseconds: 1000),
         valueLabelPadding:
             const EdgeInsets.symmetric(vertical: 1, horizontal: 8),
         valueLabelMargin: const EdgeInsets.only(right: 8),
@@ -180,6 +178,7 @@ class _addRateState extends State<addRate> {
         },
       );
     } catch (e) {
+      print(e);
       Fluttertoast.showToast(
         msg: e.toString(),
         backgroundColor: Colors.red.shade500,

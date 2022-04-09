@@ -56,8 +56,8 @@ class ViewTeacherScreen extends StatelessWidget {
                 ),
                 Table(
                   columnWidths: const {
-                    0: FractionColumnWidth(0.6),
-                    1: FractionColumnWidth(0.3)
+                    0: FractionColumnWidth(0.4),
+                    1: FractionColumnWidth(0.5)
                   },
                   children: [
                     TableRow(
@@ -76,7 +76,7 @@ class ViewTeacherScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
                             _teacher.name,
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -102,7 +102,7 @@ class ViewTeacherScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
                             _teacher.email,
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -128,7 +128,7 @@ class ViewTeacherScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
                             _teacher.age,
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -154,7 +154,7 @@ class ViewTeacherScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
                             _teacher.contact,
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -180,7 +180,7 @@ class ViewTeacherScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
                             _teacher.experience,
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -206,7 +206,7 @@ class ViewTeacherScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
                             _teacher.fieldofstudy,
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -232,7 +232,7 @@ class ViewTeacherScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
                             _teacher.eduQualification,
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
@@ -258,7 +258,7 @@ class ViewTeacherScreen extends StatelessWidget {
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
                             _teacher.about,
-                            textAlign: TextAlign.center,
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,
