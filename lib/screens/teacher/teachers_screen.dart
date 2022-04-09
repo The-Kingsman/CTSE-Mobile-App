@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:teach_rate/models/Teacher.dart';
 import 'package:teach_rate/screens/teacher/add_teacher_screen.dart';
 import 'package:teach_rate/screens/teacher/view_teacher_screen.dart';
+import 'package:teach_rate/widgets/common/app_drawer.dart';
 import 'package:teach_rate/widgets/teacher/search_bar.dart';
 import 'package:teach_rate/widgets/teacher/teacher_tile.dart';
 
@@ -30,6 +31,7 @@ class _TeachersScreenState extends State<TeachersScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text(''),
         elevation: 1.0,

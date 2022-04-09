@@ -6,6 +6,7 @@ import 'package:teach_rate/screens/class/add_class_screen.dart';
 import 'package:teach_rate/screens/class/edit_class_screen.dart';
 import 'package:teach_rate/screens/class/view_class_screen.dart';
 import 'package:teach_rate/widgets/class/class_tile.dart';
+import 'package:teach_rate/widgets/common/app_drawer.dart';
 import 'package:teach_rate/widgets/teacher/search_bar.dart';
 
 class ClassesScreen extends StatefulWidget {
@@ -31,6 +32,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: const AppDrawer(),
       appBar: AppBar(
         title: const Text(''),
         leading: GestureDetector(
