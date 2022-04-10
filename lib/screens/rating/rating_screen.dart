@@ -197,21 +197,4 @@ class _RatingScreenState extends State<RatingScreen> {
       },
     );
   }
-
-  _updateSearchText(value) {
-    const duration = Duration(milliseconds: 800);
-    if (searchOnStoppedTyping != null) {
-      setState(
-        () => searchOnStoppedTyping.cancel(),
-      );
-    }
-    setState(
-      () => searchOnStoppedTyping = Timer(
-        duration,
-        () => search(value),
-      ),
-    );
-  }
-
-  search(value) {}
 }
