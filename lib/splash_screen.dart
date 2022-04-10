@@ -84,7 +84,7 @@ class _SplashScreenState extends State<SplashScreen>
 
   performAutoLogin() async {
     final prefs = await SharedPreferences.getInstance();
-    if (prefs.getString('user') != null) {
+    if (prefs.getString('email') != null) {
       var email = prefs.getString('email');
       var password = prefs.getString('password');
       signIn(email.toString(), password.toString());
