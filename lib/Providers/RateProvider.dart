@@ -34,7 +34,8 @@ class RateProvider with ChangeNotifier {
       );
       switch (response.statusCode) {
         case 200:
-          final extractedCode = json.decode(response.body) as List<dynamic>;
+          final extractedCode =
+              json.decode(response.body)['results'] as List<dynamic>;
           final List<Rating> loadedRatings = [];
           extractedCode.forEach(
             (prodData) {

@@ -1,4 +1,3 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -6,8 +5,6 @@ import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teach_rate/Providers/RateProvider.dart';
 import 'package:teach_rate/screens/teacher/teachers_screen.dart';
-
-import '../../models/User.dart';
 
 class addRate extends StatefulWidget {
   final String teacherId;

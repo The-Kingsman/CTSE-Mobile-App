@@ -4,12 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:teach_rate/Providers/RateProvider.dart';
+import 'package:teach_rate/providers/RateProvider.dart';
 import 'package:teach_rate/screens/rating/add_rating_screen.dart';
 import 'package:teach_rate/screens/rating/view_rating_screen.dart';
-
-import '../../widgets/common/app_drawer.dart';
-import '../../widgets/rating/rate_tile.dart';
+import 'package:teach_rate/widgets/common/app_drawer.dart';
+import 'package:teach_rate/widgets/rating/rate_tile.dart';
 
 class RatingScreen extends StatefulWidget {
   final String teacherId;
@@ -31,7 +30,6 @@ class _RatingScreenState extends State<RatingScreen> {
   @override
   initState() {
     checkAdmin();
-
     super.initState();
   }
 
@@ -71,11 +69,11 @@ class _RatingScreenState extends State<RatingScreen> {
                   padding: const EdgeInsets.only(
                       bottom: kFloatingActionButtonMargin + 48),
                   controller: _controller,
-                  itemCount: provider.getRatings().length,
+                  itemCount: provider.ratings.length,
                   itemBuilder: (context, index) => Dismissible(
                     key: UniqueKey(),
                     onDismissed: (direction) {
-                      deleteRateDialog(provider.getRatings()[index].id);
+                      deleteRateDialog(provider.ratings[index].id);
                     },
                     direction: DismissDirection.endToStart,
                     background: const Align(
@@ -92,11 +90,11 @@ class _RatingScreenState extends State<RatingScreen> {
                           context,
                           MaterialPageRoute(
                             builder: (context) =>
-                                ViewRatingScreen(provider.getRatings()[index]),
+                                ViewRatingScreen(provider.ratings[index]),
                           ),
                         );
                       },
-                      child: RateTile(provider.getRatings()[index]),
+                      child: RateTile(provider.ratings[index]),
                     ),
                   ),
                 ),
