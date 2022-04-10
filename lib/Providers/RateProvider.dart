@@ -37,20 +37,20 @@ class RateProvider with ChangeNotifier {
           final extractedCode =
               json.decode(response.body)['results'] as List<dynamic>;
           final List<Rating> loadedRatings = [];
-          extractedCode.forEach(
-            (prodData) {
-              loadedRatings.add(
-                Rating(
-                  id: prodData['_id'],
-                  user_id: prodData['user_id'],
-                  rating: prodData['rating'],
-                  comment: prodData['comment'],
-                  teacher_id: prodData['teacher_id'],
-                  username: prodData['username'],
-                ),
-              );
-            },
-          );
+          // extractedCode.forEach(
+          //   (prodData) {
+          //     loadedRatings.add(
+          //       Rating(
+          //         id: prodData['_id'],
+          //         user_id: prodData['user_id'],
+          //         rating: prodData['rating'],
+          //         comment: prodData['comment'],
+          //         teacher_id: prodData['teacher_id'],
+          //         username: prodData['username'],
+          //       ),
+          //     );
+          //   },
+          // );
           ratings = loadedRatings;
           notifyListeners();
       }

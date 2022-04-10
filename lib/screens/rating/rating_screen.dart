@@ -21,7 +21,6 @@ class RatingScreen extends StatefulWidget {
 class _RatingScreenState extends State<RatingScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isAdmin = false;
-
   bool loading = false;
   String searchText = '';
   late Timer searchOnStoppedTyping;

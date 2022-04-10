@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:teach_rate/models/Teacher.dart';
-import 'package:teach_rate/screens/rating/add_rating_screen.dart';
 import 'package:teach_rate/screens/rating/rating_screen.dart';
 import 'package:teach_rate/screens/teacher/edit_teacher_screen.dart';
 
 class ViewTeacherScreen extends StatelessWidget {
   final Teacher _teacher;
-  ViewTeacherScreen(this._teacher);
+  const ViewTeacherScreen(this._teacher);
 
   @override
   Widget build(BuildContext context) {

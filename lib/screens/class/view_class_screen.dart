@@ -50,25 +50,13 @@ class ViewClassScreen extends StatelessWidget {
                 Center(
                   child: Text(
                     'View Class',
-                    style: Theme.of(context).textTheme.bodyLarge,
+                    style: Theme.of(context).textTheme.headline4,
                   ),
                 ),
                 Table(
-                  border: TableBorder(
-                    horizontalInside: BorderSide(
-                      width: 2,
-                      color: Colors.grey.shade300,
-                      style: BorderStyle.solid,
-                    ),
-                    bottom: BorderSide(
-                      width: 2,
-                      color: Colors.grey.shade300,
-                      style: BorderStyle.solid,
-                    ),
-                  ),
                   columnWidths: const {
-                    0: FractionColumnWidth(0.6),
-                    1: FractionColumnWidth(0.3)
+                    0: FractionColumnWidth(0.4),
+                    1: FractionColumnWidth(0.5)
                   },
                   children: [
                     TableRow(
@@ -76,7 +64,7 @@ class ViewClassScreen extends StatelessWidget {
                         const Padding(
                           padding: EdgeInsets.only(top: 20),
                           child: Text(
-                            'Sample',
+                            'Subject',
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w800,
@@ -86,8 +74,164 @@ class ViewClassScreen extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
-                            'Sample',
-                            textAlign: TextAlign.center,
+                            _class.subject,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Text(
+                            'Grade',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Text(
+                            _class.grade,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Text(
+                            'Time',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Text(
+                            _class.time,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Text(
+                            'Loaction',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Text(
+                            _class.location,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Text(
+                            'Fee',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Text(
+                            'Rs. ${_class.fee}',
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Text(
+                            'Day',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Text(
+                            _class.day,
+                            textAlign: TextAlign.start,
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w700,
+                              color: Colors.grey[600],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                    TableRow(
+                      children: [
+                        const Padding(
+                          padding: EdgeInsets.only(top: 20),
+                          child: Text(
+                            'Description',
+                            style: TextStyle(
+                              fontSize: 20,
+                              fontWeight: FontWeight.w800,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 20),
+                          child: Text(
+                            _class.description,
+                            textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
                               fontWeight: FontWeight.w700,

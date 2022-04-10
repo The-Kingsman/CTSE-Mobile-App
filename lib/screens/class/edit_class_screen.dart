@@ -24,6 +24,18 @@ class _EditClassScreenState extends State<EditClassScreen> {
   TextEditingController subject = TextEditingController();
   TextEditingController grade = TextEditingController();
   TextEditingController description = TextEditingController();
+  @override
+  void initState() {
+    teacher.text = widget._class.teacherID;
+    time.text = widget._class.time;
+    location.text = widget._class.location;
+    fee.text = widget._class.fee;
+    day.text = widget._class.day;
+    subject.text = widget._class.subject;
+    grade.text = widget._class.grade;
+    description.text = widget._class.description;
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -273,14 +285,14 @@ class _EditClassScreenState extends State<EditClassScreen> {
       await Provider.of<ClassProvider>(context, listen: false)
           .updateClass(
         widget._class.id,
-        teacher,
-        subject,
-        grade,
-        time,
-        location,
-        fee,
-        day,
-        description,
+        teacher.text,
+        subject.text,
+        grade.text,
+        time.text,
+        location.text,
+        fee.text,
+        day.text,
+        description.text,
       )
           .then(
         (result) {

@@ -1,12 +1,9 @@
 import 'dart:async';
-import 'dart:convert';
 import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:teach_rate/models/Teacher.dart';
-import 'package:teach_rate/models/User.dart';
 import 'package:teach_rate/providers/TeacherProvider.dart';
 import 'package:teach_rate/screens/teacher/add_teacher_screen.dart';
 import 'package:teach_rate/screens/teacher/view_teacher_screen.dart';

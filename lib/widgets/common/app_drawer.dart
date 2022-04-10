@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teach_rate/models/User.dart';
@@ -45,7 +43,6 @@ class AppDrawer extends StatelessWidget {
               ),
               onTap: () async {
                 final prefs = await SharedPreferences.getInstance();
-
                 var id = prefs.getString('userID');
                 var name = prefs.getString('name');
                 var email = prefs.getString('email');
@@ -53,19 +50,20 @@ class AppDrawer extends StatelessWidget {
                 var contact = prefs.getString('contact');
                 var password = prefs.getString('password');
                 var role = prefs.getString('role');
-
+                User user = User(
+                  id: prefs.getString('userID').toString(),
+                  name: prefs.getString('name').toString(),
+                  email: prefs.getString('email').toString(),
+                  age: prefs.getString('age').toString(),
+                  contact: prefs.getString('contact').toString(),
+                  password: prefs.getString('password').toString(),
+                  role: prefs.getString('role').toString(),
+                );
                 Navigator.pop(context);
                 Navigator.push(
                   context,
                   MaterialPageRoute(
-                    builder: (context) => ViewUserProfileScreen(
-                        id.toString(),
-                        name.toString(),
-                        email.toString(),
-                        age.toString(),
-                        contact.toString(),
-                        password.toString(),
-                        role.toString()),
+                    builder: (context) => ViewUserProfileScreen(user),
                   ),
                 );
               },

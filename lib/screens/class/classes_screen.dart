@@ -42,6 +42,17 @@ class _ClassesScreenState extends State<ClassesScreen> {
         elevation: 1.0,
         centerTitle: false,
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const AddClassScreen(),
+            ),
+          );
+        },
+        child: const Icon(Icons.add),
+      ),
       backgroundColor: Colors.white,
       key: _scaffoldKey,
       body: Padding(

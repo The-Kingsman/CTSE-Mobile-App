@@ -3,7 +3,7 @@ import 'package:flutter_rating_stars/flutter_rating_stars.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:teach_rate/Providers/RateProvider.dart';
+import 'package:teach_rate/providers/RateProvider.dart';
 import 'package:teach_rate/screens/teacher/teachers_screen.dart';
 
 class addRate extends StatefulWidget {
@@ -145,11 +145,15 @@ class _addRateState extends State<addRate> {
     final prefs = await SharedPreferences.getInstance();
     var user_Id = prefs.getString('userID');
     var user_Name = prefs.getString('name');
-
     try {
       await Provider.of<RateProvider>(context, listen: false)
-          .createRating(user_Id.toString(), widget.teacherId.toString(),
-              user_Name.toString(), value.toString(), comment.text)
+          .createRating(
+        user_Id.toString(),
+        widget.teacherId.toString(),
+        user_Name.toString(),
+        value.toString(),
+        comment.text,
+      )
           .then(
         (result) {
           if (result['result'] is String) {

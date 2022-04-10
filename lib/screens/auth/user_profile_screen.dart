@@ -4,9 +4,9 @@ import 'package:teach_rate/screens/auth/edit_profile_screen.dart';
 import 'package:teach_rate/widgets/common/app_drawer.dart';
 
 class ViewUserProfileScreen extends StatefulWidget {
-  final String id, name, email, age, contact, password, role;
-  const ViewUserProfileScreen(this.id, this.name, this.email, this.age,
-      this.contact, this.password, this.role);
+  final User _user;
+
+  const ViewUserProfileScreen(this._user);
 
   @override
   State<ViewUserProfileScreen> createState() => _ViewUserProfileScreenState();
@@ -37,14 +37,7 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
               Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => EditProfileScreen(
-                      widget.id,
-                      widget.name,
-                      widget.email,
-                      widget.age,
-                      widget.contact,
-                      widget.password,
-                      widget.role),
+                  builder: (context) => EditProfileScreen(widget._user),
                 ),
               );
             },
@@ -93,7 +86,7 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
-                            widget.name,
+                            widget._user.name,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
@@ -119,7 +112,7 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
-                            widget.email,
+                            widget._user.email,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
@@ -145,7 +138,7 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
-                            widget.age,
+                            widget._user.age,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
@@ -171,7 +164,7 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
-                            widget.contact,
+                            widget._user.contact,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
@@ -197,7 +190,7 @@ class _ViewUserProfileScreenState extends State<ViewUserProfileScreen> {
                         Padding(
                           padding: const EdgeInsets.only(top: 20),
                           child: Text(
-                            widget.role,
+                            widget._user.role,
                             textAlign: TextAlign.start,
                             style: TextStyle(
                               fontSize: 20,
