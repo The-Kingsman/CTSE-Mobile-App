@@ -4,6 +4,7 @@ import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:provider/provider.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:teach_rate/models/Class.dart';
 import 'package:teach_rate/providers/ClassProvider.dart';
 import 'package:teach_rate/screens/class/add_class_screen.dart';
@@ -22,6 +23,7 @@ class ClassesScreen extends StatefulWidget {
 class _ClassesScreenState extends State<ClassesScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   List<Class> classes = [];
+  bool isAdmin = false;
   bool loading = false;
   String searchText = '';
   late Timer searchOnStoppedTyping;
@@ -29,6 +31,7 @@ class _ClassesScreenState extends State<ClassesScreen> {
 
   @override
   void initState() {
+    checkAdmin();
     super.initState();
   }
 
@@ -42,17 +45,19 @@ class _ClassesScreenState extends State<ClassesScreen> {
         elevation: 1.0,
         centerTitle: false,
       ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => const AddClassScreen(),
-            ),
-          );
-        },
-        child: const Icon(Icons.add),
-      ),
+      floatingActionButton: isAdmin
+          ? FloatingActionButton(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => const AddClassScreen(),
+                  ),
+                );
+              },
+              child: const Icon(Icons.add),
+            )
+          : null,
       backgroundColor: Colors.white,
       key: _scaffoldKey,
       body: Padding(
@@ -186,6 +191,16 @@ class _ClassesScreenState extends State<ClassesScreen> {
         );
       },
     );
+  }
+
+  checkAdmin() async {
+    final prefs = await SharedPreferences.getInstance();
+    var role = prefs.getString('role');
+    if (role.toString() == 'ADMIN') {
+      setState(() {
+        isAdmin = true;
+      });
+    }
   }
 
   _updateSearchText(value) {

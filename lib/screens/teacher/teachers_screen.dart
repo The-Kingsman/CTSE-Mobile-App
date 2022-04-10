@@ -21,7 +21,6 @@ class TeachersScreen extends StatefulWidget {
 class _TeachersScreenState extends State<TeachersScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   bool isAdmin = false;
-
   bool loading = false;
   String searchText = '';
   late Timer searchOnStoppedTyping;
@@ -30,7 +29,6 @@ class _TeachersScreenState extends State<TeachersScreen> {
   @override
   initState() {
     checkAdmin();
-
     super.initState();
   }
 
