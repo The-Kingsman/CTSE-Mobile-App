@@ -21,7 +21,7 @@ class RateTile extends StatelessWidget {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    _rate.teacher_id,
+                    _rate.username,
                     style: TextStyle(
                       color: Colors.grey[700],
                       fontWeight: FontWeight.bold,
@@ -29,24 +29,24 @@ class RateTile extends StatelessWidget {
                     ),
                   ),
                   const SizedBox(height: 8),
-                  // Text(
-                  //   _rate.rating,
-                  //   style: TextStyle(
-                  //     color: Colors.grey[500],
-                  //     fontWeight: FontWeight.normal,
-                  //     fontSize: 15,
-                  //   ),
-                  // ),
-                  // const SizedBox(height: 8),
-                  // Text(
-                  //   _rate.comment,
-                  //   style: TextStyle(
-                  //     color: Colors.grey[500],
-                  //     fontWeight: FontWeight.normal,
-                  //     fontSize: 15,
-                  //   ),
-                  // ),
-                  // const SizedBox(height: 8),
+                  Text(
+                    _rate.rating,
+                    style: TextStyle(
+                      color: Colors.grey[500],
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    _rate.comment,
+                    style: TextStyle(
+                      color: Colors.grey[500],
+                      fontWeight: FontWeight.normal,
+                      fontSize: 15,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
                 ],
               ),
             ],
